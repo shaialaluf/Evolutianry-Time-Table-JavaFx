@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane minHeight="180.0" minWidth="100.0" prefHeight="900.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainComponent.AppController">
+
+         <bottom>
+      <fx:include fx:id="controlPanel" minHeight="150.0" source="../ControlPanelComponent/ControlPanelComponent.fxml" />
+   </bottom>
+   <left>
+      <ScrollPane minHeight="150.0" BorderPane.alignment="CENTER">
+         <content>
+            <fx:include fx:id="DetailsAndAlgoTab" source="../SystemDetailsComponent/SystemDetailsApp.fxml" />
+         </content>
+      </ScrollPane>
+   </left>
+   <top>
+      <fx:include fx:id="upAppComponent" minHeight="80.0" minWidth="100.0" prefHeight="85.0" prefWidth="900.0" snapToPixel="false" source="../UpperSideApp/UpAppFxml.fxml" />
+   </top>
+   <center>
+      <ScrollPane fx:id="solutionComponent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="815.0" prefWidth="596.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="588.0">
+               <children>
+                  <VBox fx:id="solutionVbox" layoutY="72.0" prefHeight="900.0" prefWidth="596.0" spacing="10.0">
+                     <children>
+                        <Label contentDisplay="CENTER" prefHeight="0.0" prefWidth="100.0" text="Best solution show" textAlignment="CENTER">
+                           <VBox.margin>
+                              <Insets left="260.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TabPane fx:id="solutionTabPane" prefHeight="372.0" prefWidth="635.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab fx:id="teacherTab" text="Teachers" />
+                            <Tab fx:id="classesTab" text="Classes" />
+                              <Tab fx:id="rawTab" text="Raw" />
+                          </tabs>
+                        </TabPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

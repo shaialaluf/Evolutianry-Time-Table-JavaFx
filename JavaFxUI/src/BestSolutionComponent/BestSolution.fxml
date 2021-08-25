@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="solutionComponent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="BestSolutionComponent.BestSolutionController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="796.0" prefWidth="597.0">
+         <children>
+            <VBox fx:id="solutionVbox" prefHeight="800.0" prefWidth="600.0" spacing="10.0">
+               <children>
+                  <Label contentDisplay="CENTER" prefHeight="0.0" prefWidth="100.0" text="Best solution show" textAlignment="CENTER">
+                     <VBox.margin>
+                        <Insets left="260.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TabPane fx:id="solutionTabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab fx:id="teacherTab" text="Teachers" />
+                      <Tab fx:id="classesTab" text="Classes" />
+                        <Tab fx:id="rawTab" text="Raw" />
+                    </tabs>
+                  </TabPane>
+               </children>
+            </VBox>
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
