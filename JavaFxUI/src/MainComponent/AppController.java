@@ -51,7 +51,7 @@ public class AppController {
 
     @FXML
     public void initialize() {
-        if (upAppComponentController != null && DetailsAndAlgoTabController != null&& controlPanelController!=null&&solutionComponentController!=null) {
+        if (upAppComponentController != null && DetailsAndAlgoTabController != null&& controlPanelController!=null && solutionComponentController!=null) {
             model = new AlgorithmModel(this);
 
             upAppComponentController.setMainController(this);
@@ -59,7 +59,7 @@ public class AppController {
 
 
             DetailsAndAlgoTabController.setMainController(this);
-          DetailsAndAlgoTab.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
+            DetailsAndAlgoTab.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
             DetailsAndAlgoTab.disableProperty().bind(model.isFileLoadedSuccessfullyProperty().not());
             DetailsAndAlgoTabController.getAlgorithmOperationComponentController().setProperties();
 
@@ -93,6 +93,11 @@ public void setControlPanelComponents(){
         model.resumeAlgorithm();
 
     }
+
+    public void showBestSolution(){
+       solutionComponentController.showBestSolution(model.getSchoolSettings(),model.getBestSolution());
+    }
+
     public AlgorithmModel getModel() {
         return model;
     }

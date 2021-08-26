@@ -5,6 +5,7 @@ import Algorithm.FinishConditions.FinishByFitness;
 import Algorithm.FinishConditions.FinishByGenerationsNumber;
 import Algorithm.FinishConditions.FinishByMinutes;
 import Algorithm.FinishConditions.FinishCondition;
+import Algorithm.TimeTable;
 import AlgorithmTask.EvolutionaryAlgorithmTask;
 import CoreEvolution.SystemManager;
 import CoreEvolution.Systemic;
@@ -95,6 +96,11 @@ public EvolutionaryAlgorithm getEvolutionaryObject(){
 //            System.out.printf("asfkhflaskasfhgaskfgkagfsa");
 //    }}
     }
+
+    public TimeTable getBestSolution(){
+        return currentSystem.getBestSolution();
+    }
+
     public void pauseAlgorithm() {
         currentSystem.pauseAlgorithm();
     }

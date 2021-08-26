@@ -28,6 +28,12 @@ public class ClassRoomCollection {
         }
         return classRoomsStr;
     }
+
+    public ClassRoom getClassRoomById(int id){
+        return classRooms.stream().filter(t->t.getId()==id).findFirst().get();
+    }
+
+
     public void sortClassRoomsById() {
         Collections.sort(classRooms, new Comparator<ClassRoom>() {
             public int compare(ClassRoom c1, ClassRoom c2) {

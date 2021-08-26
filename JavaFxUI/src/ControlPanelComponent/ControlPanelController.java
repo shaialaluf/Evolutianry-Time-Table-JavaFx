@@ -162,6 +162,12 @@ public void setPauseOnAndResumeOff(){
        mainController.stopAlgorithmRunning();
     }
 
+    @FXML
+    void bestSolutionClick(ActionEvent event) {
+        mainController.showBestSolution();
+
+    }
+
 
 
     public void setNewValuesToAlgorithm(){

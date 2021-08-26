@@ -66,10 +66,9 @@ public class SystemManager implements Systemic {
 //    }
 
     @Override
-    public StringBuilder showBestSolution(BestSolutionOrientaion orientation) {
+    public TimeTable getBestSolution() {
         Pair<Integer, TimeTable> solution = evolutionaryAlgorithmSettings.getBestSolutionOfAllGenerationAndNumber();
-        StringBuilder bestSolutionStr = orientation.stringOrientation(solution.getValue(), solution.getKey());
-        return bestSolutionStr;
+        return solution.getValue();
     }
 
     public EvolutionaryAlgorithm getEvolutionaryAlgorithmSettings() {

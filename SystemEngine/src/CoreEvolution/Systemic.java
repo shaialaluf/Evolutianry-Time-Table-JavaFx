@@ -3,6 +3,7 @@ package CoreEvolution;
 import Algorithm.BestSolutionOrientaion;
 import Algorithm.EvolutionaryAlgorithm;
 import Algorithm.FinishConditions.FinishCondition;
+import Algorithm.TimeTable;
 import SchoolTimeTable.SchoolDB;
 import javafx.util.Pair;
 
@@ -20,7 +21,7 @@ public interface Systemic {
 public String showSystemDetails();
 public EvolutionaryAlgorithm getEvolutionaryObject();
    public  Systemic loadDataFromXmlFile(String fileName);
-   public StringBuilder showBestSolution(BestSolutionOrientaion orientation);
+   public TimeTable getBestSolution();
    //public List<Pair> getProgressOfBestSolutions();
 //   public boolean isAlgorithmAlive();
 //   public void interruptAlgorithmThread();

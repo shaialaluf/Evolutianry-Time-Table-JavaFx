@@ -24,7 +24,7 @@
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseButtonClicked" text="Pause" />
                   <Button fx:id="resumeButton" disable="true" mnemonicParsing="false" onAction="#resumeButtonClicked" text="Resume" />
                   <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonClick" text="Stop" />
-                  <Button fx:id="showBestSolutionsButton" mnemonicParsing="false" text="Show best solution" />
+                  <Button fx:id="showBestSolutionsButton" mnemonicParsing="false" onAction="#bestSolutionClick" text="Show best solution" />
               </buttons>
                <opaqueInsets>
                   <Insets />

@@ -373,5 +373,7 @@ public class TimeTable extends Solution implements FitnessCalculator {
         }
     }
 
-
 }
+
+
+
