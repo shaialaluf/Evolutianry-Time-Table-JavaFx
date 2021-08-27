@@ -34,6 +34,6 @@ public class TimeTableCellByNames {
         this.teacher = teacher;
         this.subject = subject;
 
-        System.out.println("dsf");
+
     }
 }
