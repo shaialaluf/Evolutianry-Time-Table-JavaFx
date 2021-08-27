@@ -22,7 +22,7 @@ public class EvolutionaryAlgorithmApplication extends Application {
 
         // set stage
         primaryStage.setTitle("EvolutionaryAlgorithm");
-        Scene scene = new Scene(root, 1200, 900);
+        Scene scene = new Scene(root);
         AppController appController=loader.getController();
         appController.setPrimaryStageOfUpComponent(primaryStage);
         primaryStage.setScene(scene);

@@ -65,6 +65,9 @@ public class SystemManager implements Systemic {
 //        }
 //    }
 
+public TimeTable getBestSolutionTimeTable(){
+       return evolutionaryAlgorithmSettings.getBestSolutionOfAllGeneration();
+}
     @Override
     public TimeTable getBestSolution() {
         Pair<Integer, TimeTable> solution = evolutionaryAlgorithmSettings.getBestSolutionOfAllGenerationAndNumber();

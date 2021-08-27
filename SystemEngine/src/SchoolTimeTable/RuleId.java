@@ -378,7 +378,7 @@ public enum RuleId {
     public abstract void evaluateConfiguration(String config);
 
     protected float ruleGrade;
-    protected String configuration;
+    protected String configuration=null;
     protected static int num=0;
 
     public float calcPointsToDecrease(TimeTable solution) {

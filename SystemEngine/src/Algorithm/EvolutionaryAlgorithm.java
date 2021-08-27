@@ -47,9 +47,7 @@ public class EvolutionaryAlgorithm implements AlgorithmExecutor {
 
     }
 
-    public Selection getSelection() {
-        return selection;
-    }
+
 
     public void init() {
         currentGeneration = new SolutionsPopulation<>();
@@ -361,6 +359,12 @@ public synchronized void notifyAlgorithm(){
 
 
     }
+    public TimeTable getBestSolutionOfAllGeneration() {
+        return bestSolutionOfAllGeneration;
+    }
 
+    public Selection getSelection() {
+        return selection;
+    }
 
 }

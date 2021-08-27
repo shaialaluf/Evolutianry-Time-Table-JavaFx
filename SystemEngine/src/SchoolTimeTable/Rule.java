@@ -27,7 +27,16 @@ public enum RuleType
     public void setType(RuleType type) {
         this.type = type;
     }
-
+public String getRuleConfiguration(){
+        String configuration;
+        if(ruleId.configuration==null) {
+            configuration="None";
+        }
+        else{
+            configuration=ruleId.configuration;
+        }
+        return configuration;
+}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

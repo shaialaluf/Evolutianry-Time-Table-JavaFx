@@ -1,10 +1,12 @@
 package MainComponent;
 
+import Algorithm.TimeTable;
 import AlgorithmOperationComponent.AlgorithmOperationController;
 import BestSolutionComponent.BestSolutionController;
 import ControlPanelComponent.ControlPanelController;
 import EvolutionEngineDB.Mutations.Mutation;
 import Model.AlgorithmModel;
+import RulesBestSolutionComponent.RulesBestSolutionController;
 import SchoolTimeTable.SchoolDB;
 import SystemDetailsComponent.SystemDetailsController;
 import UpperSideApp.UpperController;
@@ -42,6 +44,10 @@ public class AppController {
     private ScrollPane solutionComponent;
     @FXML
     private TabPane DetailsAndAlgoTab;
+    @FXML
+    private ScrollPane rulesBestSolutionComponent;
+    @FXML
+    private RulesBestSolutionController rulesBestSolutionComponentController;
 
     private AlgorithmModel model;
 
@@ -51,7 +57,7 @@ public class AppController {
 
     @FXML
     public void initialize() {
-        if (upAppComponentController != null && DetailsAndAlgoTabController != null&& controlPanelController!=null && solutionComponentController!=null) {
+        if (upAppComponentController != null && DetailsAndAlgoTabController != null && controlPanelController != null && solutionComponentController != null && rulesBestSolutionComponentController != null) {
             model = new AlgorithmModel(this);
 
             upAppComponentController.setMainController(this);
@@ -69,21 +75,24 @@ public class AppController {
 
             solutionComponentController.setMainController(this);
 
+            rulesBestSolutionComponentController.setMainController(this);
+
         }
 
 
     }
 
-    public void startRunningAlgorithm(){
+    public void startRunningAlgorithm() {
         model.runAlgorithm();
     }
-public void setControlPanelComponents(){
+
+    public void setControlPanelComponents() {
         controlPanelController.setEvolutionaryAlgorithm(model.getEvolutionaryObject());
         controlPanelController.setMutationTabs(model.getEvolutionaryObject().getMutationList());
         controlPanelController.setElitismLabels();
         controlPanelController.setSelectionDefaultValue(model.getEvolutionaryObject().getSelection());
         controlPanelController.setCrossoverDefaultValue(model.getEvolutionaryObject().getCrossover());
-}
+    }
 
     public void pauseAlgorithmRunning() {
         model.pauseAlgorithm();
@@ -94,12 +103,21 @@ public void setControlPanelComponents(){
 
     }
 
-    public void showBestSolution(){
-       solutionComponentController.showBestSolution(model.getSchoolSettings(),model.getBestSolution());
+    public void showBestSolution() {
+        if(model.getBestSolutionTimeTable()!=null) {
+            TimeTable bestSolution = model.getBestSolution();
+            solutionComponentController.showBestSolution(model.getSchoolSettings(), bestSolution);
+            rulesBestSolutionComponentController.setRulesTableView(bestSolution);
+        }
     }
 
     public AlgorithmModel getModel() {
         return model;
+    }
+
+    public void setDisableBestSolution(boolean toDisable){
+        rulesBestSolutionComponentController.getRulesTableView().setDisable(toDisable);
+        solutionComponentController.getSolutionTabPane().setDisable(toDisable);
     }
 
     public String modelShowDetails() {
@@ -114,26 +132,26 @@ public void setControlPanelComponents(){
         model.buildDataFromXml(fileName);
     }
 
-    public void bindPropertiesToAlgorithmOperationController(BooleanProperty isGenerationsConditionSelected, BooleanProperty isFitnessConditionSelected, BooleanProperty isTimeConditionSelected){
+    public void bindPropertiesToAlgorithmOperationController(BooleanProperty isGenerationsConditionSelected, BooleanProperty isFitnessConditionSelected, BooleanProperty isTimeConditionSelected) {
         DetailsAndAlgoTabController.getAlgorithmOperationComponentController().bindPropertyToGenerationsCheckBox(isGenerationsConditionSelected);
         DetailsAndAlgoTabController.getAlgorithmOperationComponentController().bindPropertyToFitnessCheckBox(isFitnessConditionSelected);
         DetailsAndAlgoTabController.getAlgorithmOperationComponentController().bindPropertyToTimeCheckBox(isTimeConditionSelected);
     }
 
-    public float getFitnessConditionValue(){
+    public float getFitnessConditionValue() {
         return DetailsAndAlgoTabController.getAlgorithmOperationComponentController().getFitnessConditionNumberToAlgorithm();
     }
 
-    public int getGenerationsConditionValue(){
+    public int getGenerationsConditionValue() {
         return DetailsAndAlgoTabController.getAlgorithmOperationComponentController().getGenerationConditionNumberToAlgorithm();
     }
 
 
-    public int getTimeConditionValue(){
+    public int getTimeConditionValue() {
         return DetailsAndAlgoTabController.getAlgorithmOperationComponentController().getTimeConditionNumberToAlgorithm();
     }
 
-    public int getFrequencyValue(){
+    public int getFrequencyValue() {
         return DetailsAndAlgoTabController.getAlgorithmOperationComponentController().getFrequencyNumberToAlgorithm();
     }
 
@@ -142,36 +160,47 @@ public void setControlPanelComponents(){
         return model.getAlgorithmSettings();
     }
 
-    public void setPrimaryStageOfUpComponent(Stage stage){
+    public void setPrimaryStageOfUpComponent(Stage stage) {
         upAppComponentController.setPrimaryStage(stage);
     }
 
-    public StringProperty getFromModelTaskFitnessProperty(){
+    public StringProperty getFromModelTaskFitnessProperty() {
         return model.getTaskFitnessProperty();
     }
 
-    public StringProperty getFromModelTaskGenerationProperty(){
+    public StringProperty getFromModelTaskGenerationProperty() {
         return model.getTaskGenerationProperty();
     }
-public BooleanProperty getIsTaskRunningProperty(){
+
+    public BooleanProperty getIsTaskRunningProperty() {
         return model.getIsTaskRunning();
-}
-    public FloatProperty getFromModelTaskFinishGenerationProperty(){ return model.getTaskFinishGenerationProperty();}
+    }
 
-    public FloatProperty getFromModelTaskFinishFitnessProperty(){ return model.getTaskFinishFitnessProperty();}
+    public FloatProperty getFromModelTaskFinishGenerationProperty() {
+        return model.getTaskFinishGenerationProperty();
+    }
 
-    public FloatProperty getFromModelTaskFinishTimeProperty(){ return model.getTaskFinishTimeProperty();}
+    public FloatProperty getFromModelTaskFinishFitnessProperty() {
+        return model.getTaskFinishFitnessProperty();
+    }
 
-    public BooleanProperty getFromModelTaskIsDoneProperty(){ return model.getTaskIsDoneProperty();}
+    public FloatProperty getFromModelTaskFinishTimeProperty() {
+        return model.getTaskFinishTimeProperty();
+    }
 
-    public void changeToEndConditionsScreen(){
+    public BooleanProperty getFromModelTaskIsDoneProperty() {
+        return model.getTaskIsDoneProperty();
+    }
+
+    public void changeToEndConditionsScreen() {
         DetailsAndAlgoTabController.getAlgorithmOperationComponentController().switchToEndConditionsScreen();
     }
-    public void initializeResumePauseButtons(){
+
+    public void initializeResumePauseButtons() {
         controlPanelController.setPauseOnAndResumeOff();
     }
 
-    public void stopAlgorithmRunning(){
+    public void stopAlgorithmRunning() {
         model.interruptAlgorithmThread();
     }
 }

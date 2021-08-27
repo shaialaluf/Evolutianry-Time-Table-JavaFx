@@ -19,7 +19,7 @@
                         <Insets left="260.0" />
                      </VBox.margin>
                   </Label>
-                  <TabPane fx:id="solutionTabPane" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="solutionTabPane" disable="true" prefHeight="768.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab fx:id="teacherTab" text="Teachers" />
                       <Tab fx:id="classesTab" text="Classes" />

@@ -5,6 +5,7 @@ import Algorithm.FinishConditions.FinishByGenerationsNumber;
 import Algorithm.FinishConditions.FinishByMinutes;
 import Algorithm.FinishConditions.FinishCondition;
 import AlgorithmOperationComponent.AlgorithmOperationController;
+import BestSolutionComponent.BestSolutionController;
 import CoreEvolution.Systemic;
 import MainComponent.AppController;
 import javafx.application.Platform;
@@ -19,6 +20,7 @@ import java.util.List;
 
 public class EvolutionaryAlgorithmTask extends Task<Boolean> {
     private Systemic currentSystem;
+    private AppController mainComponent;
     private static int frequency;
     private List<FinishCondition> finishConditionList;
     private static StringProperty currentFitness=new SimpleStringProperty();
@@ -30,8 +32,9 @@ public class EvolutionaryAlgorithmTask extends Task<Boolean> {
     private static BooleanProperty isRunning=new SimpleBooleanProperty(false);
 
 
-    public EvolutionaryAlgorithmTask(Systemic currentSystem , List<FinishCondition> finishConditionList, int frequency) {
+    public EvolutionaryAlgorithmTask(Systemic currentSystem , List<FinishCondition> finishConditionList, int frequency,AppController mainComponent) {
         this.currentSystem = currentSystem;
+        this.mainComponent=mainComponent;
         this.finishConditionList=finishConditionList;
         setFrequency(frequency);
 
@@ -53,13 +56,17 @@ public class EvolutionaryAlgorithmTask extends Task<Boolean> {
     @Override
     protected Boolean call() throws Exception {
         isRunning.setValue(true);
-        finishGenerationsRatio.setValue(0);
+        finishGenerationsRatio.setValue(0);//         disable Best solution
         finishFitnessRatio.setValue(0);
         finishTimeRatio.setValue(0);
         isFinished.setValue(false);
         currentSystem.run(finishConditionList,frequency,EvolutionaryAlgorithmTask::updateUiGenerations,EvolutionaryAlgorithmTask::updateUiProgress);
         isFinished.setValue(true);
         isRunning.setValue(false);
+        Platform.runLater(()->{
+            mainComponent.showBestSolution();
+        });
+
         return true;
     }
 

@@ -21,33 +21,44 @@ import java.util.List;
 public class AlgorithmModel {
     private AppController mainAppController;
     private Systemic currentSystem = new SystemManager();
-    private StringProperty filePath=new SimpleStringProperty();
-    private StringProperty loadResult=new SimpleStringProperty();
-    private BooleanProperty isFileLoadedSuccessfully =new SimpleBooleanProperty(false);
-    private BooleanProperty isNewSuccessfulLoad=new SimpleBooleanProperty(false);
-    private BooleanProperty isGenerationsConditionSelected=new SimpleBooleanProperty();
-    private BooleanProperty isFitnessConditionSelected=new SimpleBooleanProperty();
-    private BooleanProperty isTimeConditionSelected=new SimpleBooleanProperty();
+    private StringProperty filePath = new SimpleStringProperty();
+    private StringProperty loadResult = new SimpleStringProperty();
+    private BooleanProperty isFileLoadedSuccessfully = new SimpleBooleanProperty(false);
+    private BooleanProperty isNewSuccessfulLoad = new SimpleBooleanProperty(false);
+    private BooleanProperty isGenerationsConditionSelected = new SimpleBooleanProperty();
+    private BooleanProperty isFitnessConditionSelected = new SimpleBooleanProperty();
+    private BooleanProperty isTimeConditionSelected = new SimpleBooleanProperty();
     private Thread algorithmThread;
     private EvolutionaryAlgorithmTask algorithmTask;
 
 
     public AlgorithmModel(AppController mainAppController) {
         this.mainAppController = mainAppController;
-        mainAppController.bindPropertiesToAlgorithmOperationController(isGenerationsConditionSelected, isFitnessConditionSelected,isTimeConditionSelected);
+        mainAppController.bindPropertiesToAlgorithmOperationController(isGenerationsConditionSelected, isFitnessConditionSelected, isTimeConditionSelected);
     }
 
 
     public void buildDataFromXml(String fileName) {
         loadResult.set("File loaded successfully");
-       // isNewSuccessfulLoad.set(false);
+        // isNewSuccessfulLoad.set(false);
         try {
-            currentSystem = currentSystem.loadDataFromXmlFile(fileName);
+
+            Systemic tempSystem = new SystemManager();
+            tempSystem = tempSystem.loadDataFromXmlFile(fileName);
+
             filePath.set(fileName);
             isFileLoadedSuccessfully.set(true);
             isNewSuccessfulLoad.set(true);
+            if (isAlgorithmAlive()) {
+                interruptAlgorithmThread();
+            }
+            while (isAlgorithmAlive()) {
 
+            }
+            currentSystem = tempSystem;
             mainAppController.setControlPanelComponents();
+            mainAppController.changeToEndConditionsScreen();
+            mainAppController.setDisableBestSolution(true);
         } catch (TeacherWithIllegalSubjectException | TeachersIdNotSequentialException | SubjectsIdNotSequentialException | RuleAppearsTwiceException
                 | FileErrorException | ClassWithIllegalSubjectException | ClassPassedHoursLimitException | ClassesIdNotSequentialException
                 | ElitismBiggerThanPopulationException e) {
@@ -59,22 +70,22 @@ public class AlgorithmModel {
 
     }
 
-    public void runAlgorithm(){
-        List<FinishCondition> finishConditionList=new ArrayList<>();
-        if(isGenerationsConditionSelected.getValue()){
+    public void runAlgorithm() {
+        List<FinishCondition> finishConditionList = new ArrayList<>();
+        if (isGenerationsConditionSelected.getValue()) {
             finishConditionList.add(new FinishByGenerationsNumber(mainAppController.getGenerationsConditionValue()));
         }
-        if(isFitnessConditionSelected.getValue()){
+        if (isFitnessConditionSelected.getValue()) {
             finishConditionList.add(new FinishByFitness(mainAppController.getFitnessConditionValue()));
         }
-        if(isTimeConditionSelected.getValue()){
+        if (isTimeConditionSelected.getValue()) {
             finishConditionList.add(new FinishByMinutes(mainAppController.getTimeConditionValue()));
         }
 
-        int frequency=mainAppController.getFrequencyValue();
+        int frequency = mainAppController.getFrequencyValue();
 
-        algorithmTask=new EvolutionaryAlgorithmTask(currentSystem,finishConditionList,frequency);
-        algorithmThread=new Thread(algorithmTask);
+        algorithmTask = new EvolutionaryAlgorithmTask(currentSystem, finishConditionList, frequency, mainAppController);
+        algorithmThread = new Thread(algorithmTask);
         algorithmThread.setName("Algorithm Thread");
         algorithmThread.setDaemon(true);
         algorithmThread.start();
@@ -84,9 +95,10 @@ public class AlgorithmModel {
         return (algorithmThread != null && algorithmThread.isAlive());
     }
 
-public EvolutionaryAlgorithm getEvolutionaryObject(){
+    public EvolutionaryAlgorithm getEvolutionaryObject() {
         return currentSystem.getEvolutionaryObject();
-}
+    }
+
     public void interruptAlgorithmThread() {
         if (algorithmThread != null) {
             algorithmThread.interrupt();
@@ -96,8 +108,10 @@ public EvolutionaryAlgorithm getEvolutionaryObject(){
 //            System.out.printf("asfkhflaskasfhgaskfgkagfsa");
 //    }}
     }
-
-    public TimeTable getBestSolution(){
+    public TimeTable getBestSolutionTimeTable() {
+        return currentSystem.getBestSolutionTimeTable();
+    }
+    public TimeTable getBestSolution() {
         return currentSystem.getBestSolution();
     }
 
@@ -110,17 +124,17 @@ public EvolutionaryAlgorithm getEvolutionaryObject(){
 
     }
 
-    public SchoolDB getSchoolSettings(){
+    public SchoolDB getSchoolSettings() {
         return currentSystem.getSchoolSettings();
-}
+    }
 
-    public String getAlgorithmSettings(){
+    public String getAlgorithmSettings() {
         return currentSystem.getEvolutionaryDetails();
     }
 
-    public String showSystemDetails(){
+    public String showSystemDetails() {
         return currentSystem.showSystemDetails();
-}
+    }
 
     public StringProperty filePathProperty() {
         return filePath;
@@ -141,30 +155,32 @@ public EvolutionaryAlgorithm getEvolutionaryObject(){
     public void setIsNewSuccessfulLoad(boolean isNewSuccessfulLoad) {
         this.isNewSuccessfulLoad.set(isNewSuccessfulLoad);
     }
-public BooleanProperty getIsTaskRunning(){
+
+    public BooleanProperty getIsTaskRunning() {
         return EvolutionaryAlgorithmTask.isRunningProperty();
-}
-    public StringProperty getTaskFitnessProperty(){
+    }
+
+    public StringProperty getTaskFitnessProperty() {
         return EvolutionaryAlgorithmTask.getCurrentFitnessProperty();
     }
 
-    public StringProperty getTaskGenerationProperty(){
+    public StringProperty getTaskGenerationProperty() {
         return EvolutionaryAlgorithmTask.getCurrentGenerationProperty();
     }
 
-    public FloatProperty getTaskFinishGenerationProperty(){
+    public FloatProperty getTaskFinishGenerationProperty() {
         return EvolutionaryAlgorithmTask.getFinishGenerationsRatioProperty();
     }
 
-    public FloatProperty getTaskFinishFitnessProperty(){
+    public FloatProperty getTaskFinishFitnessProperty() {
         return EvolutionaryAlgorithmTask.getFinishFitnessRatioProperty();
     }
 
-    public FloatProperty getTaskFinishTimeProperty(){
+    public FloatProperty getTaskFinishTimeProperty() {
         return EvolutionaryAlgorithmTask.getFinishTimeRatioProperty();
     }
 
-    public BooleanProperty getTaskIsDoneProperty(){
+    public BooleanProperty getTaskIsDoneProperty() {
         return EvolutionaryAlgorithmTask.isFinishedProperty();
     }
 

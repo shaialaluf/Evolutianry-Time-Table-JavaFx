@@ -22,6 +22,8 @@ public String showSystemDetails();
 public EvolutionaryAlgorithm getEvolutionaryObject();
    public  Systemic loadDataFromXmlFile(String fileName);
    public TimeTable getBestSolution();
+   public TimeTable getBestSolutionTimeTable();
+
    //public List<Pair> getProgressOfBestSolutions();
 //   public boolean isAlgorithmAlive();
 //   public void interruptAlgorithmThread();

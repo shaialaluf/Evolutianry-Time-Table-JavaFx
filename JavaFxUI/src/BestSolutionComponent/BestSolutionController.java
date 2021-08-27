@@ -30,6 +30,8 @@ public class BestSolutionController {
     @FXML
     private VBox solutionVbox;
 
+
+
     @FXML
     private TabPane solutionTabPane;
 
@@ -50,6 +52,7 @@ public class BestSolutionController {
         setTeacherTabs(schoolDB.getTeacherList(),bestSolution, schoolDB);
         setClassesTabs(schoolDB.getClassRoomsList(),bestSolution,schoolDB);
         setRawTab(schoolDB,bestSolution);
+        solutionTabPane.setDisable(false);
     }
 
     public void setRawTab(SchoolDB schoolDB , TimeTable bestSolution){
@@ -83,7 +86,9 @@ public class BestSolutionController {
         rawTab.setContent(rawTable);
 
     }
-
+    public TabPane getSolutionTabPane() {
+        return solutionTabPane;
+    }
 
     public void setClassesTabs(List<ClassRoom> classesList, TimeTable bestSolution, SchoolDB schoolDB) {
         TabPane classesTabPaneTemp = new TabPane();
