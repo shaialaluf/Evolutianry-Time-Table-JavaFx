@@ -33,7 +33,7 @@ public class TimeTableCellByNames {
         this.classRoom = classRoom;
         this.teacher = teacher;
         this.subject = subject;
-
+        System.out.println("yonatanza");
 
     }
 }
